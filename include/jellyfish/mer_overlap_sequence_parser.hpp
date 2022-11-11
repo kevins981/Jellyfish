@@ -18,6 +18,8 @@
 #include <jellyfish/cpp_array.hpp>
 #include <jellyfish/parser_common.hpp>
 
+#include <iostream>
+
 namespace jellyfish {
 
 struct sequence_ptr {
@@ -130,6 +132,7 @@ protected:
     }
 
     ++files_read_;
+    std::cout << "Opening file # " << files_read_ << std::endl;
     if(st.stream.standard) {
       switch(st.stream.standard->peek()) {
       case EOF: return open_next_file(st);

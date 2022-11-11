@@ -33,6 +33,9 @@
 #include <config.h>
 #endif
 
+// Vtune profiling
+#include <ittnotify.h>
+
 #include <jellyfish/err.hpp>
 #include <jellyfish/thread_exec.hpp>
 #include <jellyfish/hash_counter.hpp>
@@ -372,6 +375,8 @@ int count_main(int argc, char *argv[])
     } // if(!args.no_merge_flag
   }
 
+  __itt_pause();
+  printf("[INFO: VTUNE] Vtune analysis paused to not profile disk writing.\n");
   auto after_dump_time = system_clock::now();
 
   if(args.timing_given) {
