@@ -15,6 +15,8 @@
 #include <jellyfish/locks_pthread.hpp>
 #include <jellyfish/dumper.hpp>
 
+#include <iostream>
+
 /// Cooperative version of the hash_counter. In this implementation,
 /// it is expected that the given number of threads will call the
 /// `add` method regularly. In case the hash table is full, it gets
@@ -234,6 +236,8 @@ protected:
 
     // Done. Last sync point
     size_barrier_.wait();
+
+    //std::cout << "[INFO: Doubled size of hash table. Now hash tables has " << ary_->size() << " entries." << std::endl;
     return true;
   }
 };
