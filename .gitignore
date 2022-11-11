@@ -14,3 +14,7 @@ ltmain.sh
 *_cmdline.hpp
 test-driver
 build-*
+*.o
+*.lo
+.dirstamp
+.deps
