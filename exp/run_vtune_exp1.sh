@@ -4,7 +4,7 @@
 
 INPUT_DIR="/ssd1/songxin8/thesis/genomics/input-datasets/kmer-cnt/large/"
 NUM_THREADS=16
-RESULT_DIR="/ssd1/songxin8/thesis/genomics/vtune/exp1/"
+RESULT_DIR="/ssd1/songxin8/thesis/genomics/vtune/Jellyfish/exp1/"
 
 clean_up () {
     echo "Cleaning up. Kernel PID is $EXE_PID, numastat PID is $LOG_PID."
@@ -26,14 +26,14 @@ run_vtune_SRR6702603_1() {
   OUTFILE=$1 #first argument
   NODE=$2
 
-  VTUNE_MEMACC_COMMON="/opt/intel/oneapi/vtune/2022.3.0/bin64/vtune -collect memory-access \
+  VTUNE_MEMACC_COMMON="/opt/intel/oneapi/vtune/latest/bin64/vtune -collect memory-access \
       -knob sampling-interval=10 -knob analyze-mem-objects=true -knob analyze-openmp=true \
       -data-limit=10000 -result-dir ${RESULT_DIR}/${OUTFILE}_memacc"
 
-  VTUNE_HOTSPOT_COMMON="/opt/intel/oneapi/vtune/2022.3.0/bin64/vtune -collect hotspots \
+  VTUNE_HOTSPOT_COMMON="/opt/intel/oneapi/vtune/latest/bin64/vtune -collect hotspots \
       -data-limit=10000 -result-dir ${RESULT_DIR}/${OUTFILE}_hotspot"
 
-  VTUNE_UARCH_COMMON="/opt/intel/oneapi/vtune/2022.3.0/bin64/vtune -collect uarch-exploration \
+  VTUNE_UARCH_COMMON="/opt/intel/oneapi/vtune/latest/bin64/vtune -collect uarch-exploration \
       -knob sampling-interval=10 -knob collect-memory-bandwidth=true
       -data-limit=10000 -result-dir ${RESULT_DIR}/${OUTFILE}_uarch"
       #--app-working-dir=/ssd1/songxin8/thesis/graph/gapbs"
