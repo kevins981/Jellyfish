@@ -29,6 +29,9 @@
 #include <memory>
 #include <chrono>
 
+//#include <pthread.h>
+//#include "perf_lfu_sizeclass.cpp"
+
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
@@ -220,6 +223,20 @@ static void signal_handler(int sig) {
 
 int count_main(int argc, char *argv[])
 {
+  //// start perf monitornig thread
+  //std::cout << "[INFO] Starting LFU migration thread " << std::endl;
+  //pthread_t perf_thread;
+  //int r = pthread_create(&perf_thread, NULL, perf_func, NULL);
+  //if (r != 0) {
+  //  std::cout << "pthread create failed." << std::endl;
+  //  exit(1);
+  //}
+  //r = pthread_setname_np(perf_thread, "lfu_perf");
+  //if (r != 0) {
+  //  std::cout << "perf thread set name failed." << std::endl;
+  //}
+  //std::cout << "perf thread created." << std::endl;
+
   auto start_time = system_clock::now();
 
   jellyfish::file_header header;

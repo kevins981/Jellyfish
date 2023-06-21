@@ -4,13 +4,13 @@ DISTCHECK_CONFIGURE_FLAGS=--enable-swig --enable-all-binding
 EXTRA_DIST = doc/jellyfish.pdf doc/jellyfish.man README LICENSE # jellyfish.spec
 man1_MANS = doc/jellyfish.man
 
-VTUNE_HOME = /opt/intel/oneapi/vtune/2022.3.0/
+VTUNE_HOME = /opt/intel/oneapi/vtune/latest/
 
 pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA = jellyfish-2.0.pc
 
-AM_LDFLAGS = -pthread $(HTSLIB_LIBS) $(HTSLIB_RPATH) -L$(VTUNE_HOME)/lib64 -littnotify -ldl # $(VALGRIND_LIBS) 
-AM_CPPFLAGS = -Wall -Wnon-virtual-dtor -I$(srcdir) -I$(srcdir)/include -I$(VTUNE_HOME)/include $(VALGRIND_CFLAGS) 
+AM_LDFLAGS = -pthread $(HTSLIB_LIBS) $(HTSLIB_RPATH) -L$(VTUNE_HOME)/lib64 -littnotify -ldl -lnuma # $(VALGRIND_LIBS)  
+AM_CPPFLAGS = -Wall -Wnon-virtual-dtor -I$(srcdir) -I$(srcdir)/include -I$(VTUNE_HOME)/include -I${BIGMEMBENCH_COMMON_PATH}/tinylfu $(VALGRIND_CFLAGS) 
 AM_CXXFLAGS = $(ALL_CXXFLAGS) $(HTSLIB_CFLAGS)
 #AM_LDADD    = $(HTSLIB_LIBS) -lpthread
 
