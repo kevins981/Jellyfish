@@ -9,8 +9,13 @@ VTUNE_HOME = /opt/intel/oneapi/vtune/latest/
 pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA = jellyfish-2.0.pc
 
+# Use LFU tiering or not. 
+# To enable LFU tiering, run make LOCAL_DEFS="-DLFU_TIERING"
+LOCAL_DEFS = 
+
 AM_LDFLAGS = -pthread $(HTSLIB_LIBS) $(HTSLIB_RPATH) -L$(VTUNE_HOME)/lib64 -littnotify -ldl -lnuma # $(VALGRIND_LIBS)  
-AM_CPPFLAGS = -Wall -Wnon-virtual-dtor -I$(srcdir) -I$(srcdir)/include -I$(VTUNE_HOME)/include -I${BIGMEMBENCH_COMMON_PATH}/tinylfu $(VALGRIND_CFLAGS) 
+#AM_CPPFLAGS = -Wall -Wnon-virtual-dtor -I$(srcdir) -I$(srcdir)/include -I$(VTUNE_HOME)/include -I${BIGMEMBENCH_COMMON_PATH}/tinylfu $(VALGRIND_CFLAGS) $(LOCAL_DEFS)
+AM_CPPFLAGS = -Wnon-virtual-dtor -I$(srcdir) -I$(srcdir)/include -I$(VTUNE_HOME)/include -I${BIGMEMBENCH_COMMON_PATH}/tinylfu $(VALGRIND_CFLAGS) $(LOCAL_DEFS)
 AM_CXXFLAGS = $(ALL_CXXFLAGS) $(HTSLIB_CFLAGS)
 #AM_LDADD    = $(HTSLIB_LIBS) -lpthread
 

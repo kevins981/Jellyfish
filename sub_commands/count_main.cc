@@ -29,8 +29,10 @@
 #include <memory>
 #include <chrono>
 
-//#include <pthread.h>
-//#include "perf_lfu_sizeclass.cpp"
+#ifdef LFU_TIERING
+#include <pthread.h>
+#include "perf_lfu_sizeclass.cpp"
+#endif
 
 #ifdef HAVE_CONFIG_H
 #include <config.h>
@@ -223,19 +225,21 @@ static void signal_handler(int sig) {
 
 int count_main(int argc, char *argv[])
 {
-  //// start perf monitornig thread
-  //std::cout << "[INFO] Starting LFU migration thread " << std::endl;
-  //pthread_t perf_thread;
-  //int r = pthread_create(&perf_thread, NULL, perf_func, NULL);
-  //if (r != 0) {
-  //  std::cout << "pthread create failed." << std::endl;
-  //  exit(1);
-  //}
-  //r = pthread_setname_np(perf_thread, "lfu_perf");
-  //if (r != 0) {
-  //  std::cout << "perf thread set name failed." << std::endl;
-  //}
-  //std::cout << "perf thread created." << std::endl;
+#ifdef LFU_TIERING
+  // start perf monitornig thread
+  std::cout << "[INFO] Starting LFU migration thread " << std::endl;
+  pthread_t perf_thread;
+  int r = pthread_create(&perf_thread, NULL, perf_func, NULL);
+  if (r != 0) {
+    std::cout << "pthread create failed." << std::endl;
+    exit(1);
+  }
+  r = pthread_setname_np(perf_thread, "lfu_perf");
+  if (r != 0) {
+    std::cout << "perf thread set name failed." << std::endl;
+  }
+  std::cout << "perf thread created." << std::endl;
+#endif
 
   auto start_time = system_clock::now();
 

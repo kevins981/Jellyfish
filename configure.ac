@@ -20,8 +20,8 @@ AC_SUBST([PACKAGE_LIB], [2.0])
 save_CXXFLAGS=$CXXFLAGS
 AC_CANONICAL_HOST
 case "${host_os}" in
-     cygwin*) CXXFLAGS="-std=gnu++11 $save_CXXFLAGS" ;;
-     *) CXXFLAGS="-std=c++11 $save_CXXFLAGS" ;;
+     cygwin*) CXXFLAGS="-std=gnu++14 $save_CXXFLAGS" ;;
+     *) CXXFLAGS="-std=c++14 $save_CXXFLAGS" ;;
 esac
 
 # Try to find htslib to read SAM/BAM/CRAM files
