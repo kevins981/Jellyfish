@@ -8,11 +8,11 @@ if [ "$BIGMEMBENCH_COMMON_PATH" = "" ] ; then
 fi
 source ${BIGMEMBENCH_COMMON_PATH}/run_exp_common.sh
 
-RESULT_DIR="exp/exp_lfu_test/"
+RESULT_DIR="exp/exp_lfu_06222023/"
 INPUT_DIR="/ssd1/songxin8/thesis/genomics/input-datasets/kmer-cnt/large/"
 NUM_THREADS=16
 MEMCONFIG=""
-NUM_ITERS=1
+NUM_ITERS=5
 
 run_app () {
   OUTFILE_NAME=$1 
@@ -71,24 +71,6 @@ run_app () {
 
 mkdir -p $RESULT_DIR
 
-# TinyLFU
-echo "[INFO] Building Jellyfish for LFU"
-make clean
-make -j LOCAL_DEFS="-DLFU_TIERING"
-BUILD_RET=$?
-echo "Build return: $BUILD_RET"
-if [ $BUILD_RET -ne 0 ]; then
-  echo "ERROR: Failed to build Jellyfish"
-  exit 1 
-fi
-for ((i=0;i<$NUM_ITERS;i++)); do
-  enable_lfu
-  clean_cache
-  LOGFILE_NAME=$(gen_file_name "jellyfish" "ZymoGridIONEVEN" "${MEMCONFIG}_lfu" "iter$i")
-  run_app $LOGFILE_NAME "LFU"
-done
-
-
 ## AutoNUMA
 #echo "[INFO] Building Jellyfish for AutoNUMA"
 #make clean
@@ -105,3 +87,21 @@ done
 #  LOGFILE_NAME=$(gen_file_name "jellyfish" "ZymoGridIONEVEN" "${MEMCONFIG}_autonuma" "iter$i")
 #  run_app $LOGFILE_NAME "AUTONUMA"
 #done
+
+# TinyLFU
+echo "[INFO] Building Jellyfish for LFU"
+make clean
+make -j LOCAL_DEFS="-DLFU_TIERING"
+BUILD_RET=$?
+echo "Build return: $BUILD_RET"
+if [ $BUILD_RET -ne 0 ]; then
+  echo "ERROR: Failed to build Jellyfish"
+  exit 1 
+fi
+for ((i=0;i<$NUM_ITERS;i++)); do
+  enable_lfu
+  clean_cache
+  LOGFILE_NAME=$(gen_file_name "jellyfish" "ZymoGridIONEVEN" "${MEMCONFIG}_lfu" "iter$i")
+  run_app $LOGFILE_NAME "LFU"
+  kill $(pidof perf)
+done
